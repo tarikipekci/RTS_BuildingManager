@@ -1,6 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "StoneProducerBuilding.h"
 
 #include "BuildingGameState.h"
@@ -11,6 +8,7 @@
 AStoneProducerBuilding::AStoneProducerBuilding()
 {
 	ClaimWidget = CreateDefaultSubobject<UWidgetComponent>("ClaimWidget");
+	bRewardClaimed = false;
 }
 
 void AStoneProducerBuilding::BeginPlay()
@@ -19,44 +17,96 @@ void AStoneProducerBuilding::BeginPlay()
 	ClaimWidget->AttachToComponent(BuildingRoot, FAttachmentTransformRules(EAttachmentRule::KeepRelative, true));
 }
 
+void AStoneProducerBuilding::ManageClaims()
+{
+	ABuildingGameState* GS = Cast<ABuildingGameState>(GetWorld()->GetGameState<AGameStateBase>());
+	ARTS_GameMode* GM = Cast<ARTS_GameMode>(UGameplayStatics::GetGameMode(GetWorld()));
+	if(!GS || !GM)
+		return;
+
+	for(auto StackedResource : GM->ResourceTypes)
+	{
+		int32* RewardAmount = Rewards.Find(StackedResource);
+		bool IsExisted = GS->CurrentBalance.Contains(StackedResource);
+		bool IsRequired = RewardRequirements.Contains(StackedResource);
+
+		if(IsExisted)
+		{
+			int32* CurrentAmount = GS->CurrentBalance.Find(StackedResource);
+			if(*CurrentAmount)
+			{
+				*CurrentAmount += *RewardAmount;
+				if(IsRequired)
+				{
+					int32* RequiredAmount = RewardRequirements.Find(StackedResource);
+					if(*CurrentAmount >= *RequiredAmount)
+					{
+						*CurrentAmount -= *RequiredAmount;
+					}
+				}
+			}
+		}
+		else
+		{
+			int32& NewResource = GS->CurrentBalance.Add(StackedResource);
+			NewResource += *RewardAmount;
+		}
+	}
+	GetWorld()->GetTimerManager().UnPauseTimer(WorkingTimerHandle);
+	GS->ResourcesUpdated.Broadcast();
+}
+
+void AStoneProducerBuilding::CheckRequiredState()
+{
+	if(IsThereEnoughResource())
+	{
+		GetWorld()->GetTimerManager().UnPauseTimer(WorkingTimerHandle);
+	}
+}
+
 void AStoneProducerBuilding::StartWork(float LoopDuration)
 {
 	Super::StartWork(LoopDuration);
 	StartWorking();
-	GetWorld()->GetTimerManager().SetTimer(WorkingTimerHandle, this, &AStoneProducerBuilding::Work, LoopDuration, true);
+	GetWorld()->GetTimerManager().SetTimer(WorkingTimerHandle, this, &AStoneProducerBuilding::Work, LoopDuration,
+	                                       true);
+	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &AStoneProducerBuilding::CheckRequiredState,2,true);
 }
 
 void AStoneProducerBuilding::Work()
 {
 	Super::Work();
 
-	AGameStateBase* GS = GetWorld()->GetGameState<AGameStateBase>();
-	ARTS_GameMode* GM = Cast<ARTS_GameMode>(UGameplayStatics::GetGameMode(GetWorld()));
-	if(!GM) return;
-	if(!GS) return;
-
-	if(!IsThereEnoughResource())
-		return;
-
-	for(EResourceType Enum : GM->ResourceTypes)
+	if(bRewardClaimed == false)
 	{
-		int32* CurrentAmount = Cast<ABuildingGameState>(GS)->CurrentBalance.Find(Enum);
-		int32* RequiredAmount = RewardRequirements.Find(Enum);
-		int32* RewardAmount = Rewards.Find(Enum);
-		bool IsReward = Rewards.Contains(Enum);
+		AGameStateBase* GS = GetWorld()->GetGameState<AGameStateBase>();
+		ARTS_GameMode* GM = Cast<ARTS_GameMode>(UGameplayStatics::GetGameMode(GetWorld()));
+		if(!GM) return;
+		if(!GS) return;
 
-		if(!CurrentAmount || !RequiredAmount || !RewardAmount)
+		if(!IsThereEnoughResource())
 			return;
 
-		if(*CurrentAmount < *RequiredAmount)
-			return;
-
-		*CurrentAmount -= *RequiredAmount;
-
-		if(IsReward)
+		for(EResourceType Enum : GM->ResourceTypes)
 		{
-			ClaimWidget->SetVisibility(true);
+			int32* CurrentAmount = Cast<ABuildingGameState>(GS)->CurrentBalance.Find(Enum);
+			int32* RequiredAmount = RewardRequirements.Find(Enum);
+			int32* RewardAmount = Rewards.Find(Enum);
+			bool IsReward = Rewards.Contains(Enum);
+
+			if(!CurrentAmount || !RequiredAmount || !RewardAmount)
+				return;
+
+			if(*CurrentAmount < *RequiredAmount)
+				return;
+
+			if(IsReward)
+			{
+				ClaimWidget->SetVisibility(true);
+			}
 		}
 	}
-	Cast<ABuildingGameState>(GS)->ResourcesUpdated.Broadcast();
+	bRewardClaimed = true;
+	GetWorld()->GetTimerManager().PauseTimer(WorkingTimerHandle);
+	WidgetComp->SetVisibility(false);
 }

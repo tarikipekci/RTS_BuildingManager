@@ -5,7 +5,13 @@
 			"guid": "00000000000000000000000000000000",
 			"description": "Default Uncontrolled Changelist",
 			"files": [
-				"E:/RTS_BuildingManager/RTSBuildingManager/Content/StarterContent/Architecture/Floor_400x400.uasset"
+				"E:/RTS_BuildingManager/RTSBuildingManager/Content/StarterContent/Architecture/Floor_400x400.uasset",
+				"E:/RTS_BuildingManager/RTSBuildingManager/Content/UI/Widgets/WBP_Claim.uasset",
+				"E:/RTS_BuildingManager/RTSBuildingManager/Content/Buildings/BP_StoneProducer.uasset",
+				"E:/RTS_BuildingManager/RTSBuildingManager/Content/Buildings/BP_WoodProducer.uasset",
+				"E:/RTS_BuildingManager/RTSBuildingManager/Content/BuildingDatas/DA_StoneProducer.uasset",
+				"E:/RTS_BuildingManager/RTSBuildingManager/Content/UI/Widgets/WBP_Building.uasset",
+				"E:/RTS_BuildingManager/RTSBuildingManager/Content/BuildingDatas/DA_GoldProducer.uasset"
 			]
 		}
 	]

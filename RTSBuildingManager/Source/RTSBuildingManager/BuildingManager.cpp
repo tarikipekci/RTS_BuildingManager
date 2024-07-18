@@ -10,7 +10,7 @@ ABuildingManager::ABuildingManager()
 {
 	PrimaryActorTick.bCanEverTick = true;
 	PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
-	SpawnDistance;
+	SpawnDistance = 1000.0f;;
 }
 
 void ABuildingManager::Tick(float DeltaSeconds)
@@ -73,6 +73,11 @@ void ABuildingManager::SpawnBuilding(TSubclassOf<ABaseBuilding> Building)
 	if(!GM) return;
 	if(!GS) return;
 
+	if(SpawnedBuilding)
+	{
+		SpawnedBuilding->Destroy();
+	}
+
 	int RequiredResourcesCount = 0;
 	int RequireCount = Building.GetDefaultObject()->Requirements->Requirements.RequiredResourceInfo.Num();
 
@@ -107,8 +112,7 @@ void ABuildingManager::SpawnBuilding(TSubclassOf<ABaseBuilding> Building)
 					FVector WorldLocation, WorldDirection;
 					PlayerController->DeprojectMousePositionToWorld(WorldLocation, WorldDirection);
 
-					float Distance = 1000.0f;
-					SpawnLocation = WorldLocation + (WorldDirection * Distance);
+					SpawnLocation = WorldLocation + (WorldDirection * SpawnDistance);
 				}
 
 				FRotator SpawnRotation = FRotator::ZeroRotator;

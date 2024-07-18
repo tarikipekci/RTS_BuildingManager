@@ -39,6 +39,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	bool IsThereEnoughResource();
 
+	UFUNCTION(BlueprintCallable)
+	void BroadcastDelegates();
+
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	USceneComponent* BuildingRoot;
@@ -61,4 +64,10 @@ protected:
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UBuildingRequirements* Requirements;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TMap<EResourceType, int> StackedResources;
+
+	UPROPERTY(BlueprintAssignable, BlueprintReadWrite, EditAnywhere)
+	FResourceClaimed ResourceClaimed;
 };

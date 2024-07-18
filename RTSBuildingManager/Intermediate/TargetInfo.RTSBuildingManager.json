@@ -1,0 +1,14 @@
+{
+	"Targets": [
+		{
+			"Name": "RTSBuildingManager",
+			"Path": "E:\\RTS_BuildingManager\\RTSBuildingManager\\Source\\RTSBuildingManager.Target.cs",
+			"Type": "Game"
+		},
+		{
+			"Name": "RTSBuildingManagerEditor",
+			"Path": "E:\\RTS_BuildingManager\\RTSBuildingManager\\Source\\RTSBuildingManagerEditor.Target.cs",
+			"Type": "Editor"
+		}
+	]
+}

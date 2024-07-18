@@ -1,0 +1,14 @@
+{
+    "Version": "1.2",
+    "Data": {
+        "Source": "e:\\rts_buildingmanager\\rtsbuildingmanager\\source\\rtsbuildingmanager\\rtsbuildingmanager.cpp",
+        "ProvidedModule": "",
+        "PCH": "e:\\rts_buildingmanager\\rtsbuildingmanager\\intermediate\\build\\win64\\x64\\rtsbuildingmanagereditor\\development\\engine\\sharedpch.engine.shadowerrors.inclorderunreal5_1.h.pch",
+        "Includes": [
+            "e:\\rts_buildingmanager\\rtsbuildingmanager\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\rtsbuildingmanager\\definitions.rtsbuildingmanager.h",
+            "e:\\rts_buildingmanager\\rtsbuildingmanager\\source\\rtsbuildingmanager\\rtsbuildingmanager.h"
+        ],
+        "ImportedModules": [],
+        "ImportedHeaderUnits": []
+    }
+}

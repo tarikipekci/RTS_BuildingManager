@@ -22,13 +22,26 @@ class RTSBUILDINGMANAGER_API AStoneProducerBuilding : public ABaseBuilding
 
 	virtual void BeginPlay() override;
 
-protected:
-	UPROPERTY(BlueprintAssignable, BlueprintReadWrite, EditAnywhere)
-	FResourceClaimed ResourceClaimed;
+	UFUNCTION(BlueprintCallable)
+	void ManageClaims();
 
+	UFUNCTION(BlueprintCallable)
+	void SetRewardClaimed(bool IsClaimed)
+	{
+		bRewardClaimed = IsClaimed;
+	}
+
+	UFUNCTION(BlueprintCallable)
+	void CheckRequiredState();
+
+protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UWidgetComponent* ClaimWidget;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TMap<EResourceType, int> HeldResources;
+
+	bool bRewardClaimed;
+
+	FTimerHandle TimerHandle;
 };

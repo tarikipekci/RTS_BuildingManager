@@ -67,13 +67,3 @@ void AWoodProducerBuilding::Work()
 	}
 	Cast<ABuildingGameState>(GS)->ResourcesUpdated.Broadcast();
 }
-
-void AWoodProducerBuilding::BroadcastDelegates()
-{
-	ResourceClaimed.Broadcast();
-	AGameStateBase* GS = GetWorld()->GetGameState<AGameStateBase>();
-	if(ABuildingGameState* GameState = Cast<ABuildingGameState>(GS))
-	{
-		GameState->ResourcesUpdated.Broadcast();
-	}
-}

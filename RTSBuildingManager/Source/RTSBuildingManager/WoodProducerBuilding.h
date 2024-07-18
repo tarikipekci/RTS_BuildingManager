@@ -20,16 +20,7 @@ public:
 
 	virtual void Work() override;
 
-	UFUNCTION(BlueprintCallable)
-	void BroadcastDelegates();
-
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UWidgetComponent* ClaimWidget;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TMap<EResourceType, int> StackedResources;
-
-	UPROPERTY(BlueprintAssignable, BlueprintReadWrite, EditAnywhere)
-	FResourceClaimed ResourceClaimed;
 };

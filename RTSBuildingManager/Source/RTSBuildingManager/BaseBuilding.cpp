@@ -45,7 +45,20 @@ bool ABaseBuilding::IsThereEnoughResource()
 		int32* CurrentAmount = Cast<ABuildingGameState>(GS)->CurrentBalance.Find(EnumType);
 		int32* RequiredAmount = RewardRequirements.Find(EnumType);
 		if(*CurrentAmount < *RequiredAmount)
+		{
+			WidgetComp->SetVisibility(false);
 			return false;
+		}
 	}
 	return true;
+}
+
+void ABaseBuilding::BroadcastDelegates()
+{
+	ResourceClaimed.Broadcast();
+	AGameStateBase* GS = GetWorld()->GetGameState<AGameStateBase>();
+	if(ABuildingGameState* GameState = Cast<ABuildingGameState>(GS))
+	{
+		GameState->ResourcesUpdated.Broadcast();
+	}
 }
