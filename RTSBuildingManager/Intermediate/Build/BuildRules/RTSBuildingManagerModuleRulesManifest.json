@@ -1,8 +1,0 @@
-{
-	"SourceFiles": [
-		"E:\\RTS_BuildingManager\\RTSBuildingManager\\Source\\RTSBuildingManager\\RTSBuildingManager.Build.cs",
-		"E:\\RTS_BuildingManager\\RTSBuildingManager\\Source\\RTSBuildingManager.Target.cs",
-		"E:\\RTS_BuildingManager\\RTSBuildingManager\\Source\\RTSBuildingManagerEditor.Target.cs"
-	],
-	"EngineVersion": "5.2.1"
-}

@@ -52,7 +52,7 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UWidgetComponent* WidgetComp;
 
-	UPROPERTY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FTimerHandle WorkingTimerHandle;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)

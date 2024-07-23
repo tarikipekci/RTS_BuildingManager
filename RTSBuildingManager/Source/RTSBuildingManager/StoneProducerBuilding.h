@@ -34,6 +34,10 @@ class RTSBUILDINGMANAGER_API AStoneProducerBuilding : public ABaseBuilding
 	UFUNCTION(BlueprintCallable)
 	void CheckRequiredState();
 
+public:
+	UFUNCTION(BlueprintImplementableEvent)
+	void StartProgress();
+
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UWidgetComponent* ClaimWidget;

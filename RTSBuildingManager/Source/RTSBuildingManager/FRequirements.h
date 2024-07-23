@@ -8,6 +8,11 @@ enum class EResourceType : uint8
 	Gold UMETA(DisplayerName = "Gold"),
 	Log UMETA(DisplayName = "Log"),
 	Stone UMETA(DisplayName = "Stone"),
+	Food UMETA(DisplayName = "Food"),
+	Iron UMETA(DisplayName = "Iron"),
+	Copper UMETA(DisplayName = "Copper"),
+	Wool UMETA(DisplayName = "Wool"),
+	Clay UMETA(DisplayName = "Clay"),
 	Max UMETA(DisplayName = "Max")
 };
 

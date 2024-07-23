@@ -1,6 +1,7 @@
 #include "StoneProducerBuilding.h"
 
 #include "BuildingGameState.h"
+#include "BuildingRequirements.h"
 #include "RTS_GameMode.h"
 #include "Components/WidgetComponent.h"
 #include "Kismet/GameplayStatics.h"
@@ -52,7 +53,10 @@ void AStoneProducerBuilding::ManageClaims()
 			NewResource += *RewardAmount;
 		}
 	}
-	GetWorld()->GetTimerManager().UnPauseTimer(WorkingTimerHandle);
+	if(IsThereEnoughResource())
+	{
+		GetWorld()->GetTimerManager().UnPauseTimer(WorkingTimerHandle);
+	}
 	GS->ResourcesUpdated.Broadcast();
 }
 
@@ -60,7 +64,11 @@ void AStoneProducerBuilding::CheckRequiredState()
 {
 	if(IsThereEnoughResource())
 	{
-		GetWorld()->GetTimerManager().UnPauseTimer(WorkingTimerHandle);
+		if(GetWorld()->GetTimerManager().IsTimerPaused(WorkingTimerHandle))
+		{
+			GetWorld()->GetTimerManager().ClearTimer(TimerHandle);
+			StartProgress();
+		}
 	}
 }
 
@@ -70,7 +78,6 @@ void AStoneProducerBuilding::StartWork(float LoopDuration)
 	StartWorking();
 	GetWorld()->GetTimerManager().SetTimer(WorkingTimerHandle, this, &AStoneProducerBuilding::Work, LoopDuration,
 	                                       true);
-	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &AStoneProducerBuilding::CheckRequiredState,2,true);
 }
 
 void AStoneProducerBuilding::Work()
@@ -94,9 +101,6 @@ void AStoneProducerBuilding::Work()
 			int32* RewardAmount = Rewards.Find(Enum);
 			bool IsReward = Rewards.Contains(Enum);
 
-			if(!CurrentAmount || !RequiredAmount || !RewardAmount)
-				return;
-
 			if(*CurrentAmount < *RequiredAmount)
 				return;
 
@@ -107,6 +111,7 @@ void AStoneProducerBuilding::Work()
 		}
 	}
 	bRewardClaimed = true;
-	GetWorld()->GetTimerManager().PauseTimer(WorkingTimerHandle);
 	WidgetComp->SetVisibility(false);
+	GetWorld()->GetTimerManager().PauseTimer(WorkingTimerHandle);
+	GetWorld()->GetTimerManager().SetTimer(TimerHandle,this,&AStoneProducerBuilding::CheckRequiredState, Requirements->WorkDuration, true);
 }
