@@ -26,6 +26,12 @@ protected:
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	UFUNCTION(BlueprintCallable)
+	void ConsumeResources();
+
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+	void UpdateCurrentResourceProgress();
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	USceneComponent* BuildingRoot;

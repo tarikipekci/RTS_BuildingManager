@@ -32,6 +32,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void PerformMove(FVector TargetLocation);
 
+	UFUNCTION(BlueprintCallable)
+	void CollectResource(UPARAM(ref) TMap<EResourceType, int> Resource);
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UStaticMeshComponent* MeshComp;
 

@@ -39,3 +39,15 @@ void AWorker::PerformMove(FVector TargetLocation)
 
 	AIController->MoveToTarget(TargetLocation);
 }
+
+void AWorker::CollectResource(TMap<EResourceType, int> Resource)
+{
+	for(auto CurrentResource : Resource)
+	{
+		int32* CurrentAmount = Resource.Find(CurrentResource.Key);
+		if(*CurrentAmount <= 0)
+			return;
+		int32& CollectedAmount = CollectedResources.FindOrAdd(CurrentResource.Key);
+		CollectedAmount += 1;
+	}
+}

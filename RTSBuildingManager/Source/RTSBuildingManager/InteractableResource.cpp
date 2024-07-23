@@ -30,3 +30,12 @@ void AInteractableResource::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 }
+
+void AInteractableResource::ConsumeResources()
+{
+	for(auto CurrentResource : HeldResources)
+	{
+		int32* CurrentAmount = HeldResources.Find(CurrentResource.Key);
+		*CurrentAmount -= 1;
+	}
+}
