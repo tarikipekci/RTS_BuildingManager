@@ -34,7 +34,7 @@ void AGoldProducerBuilding::Work()
 		int32* RequiredAmount = RewardRequirements.Find(Enum);
 		int32* RewardAmount = Rewards.Find(Enum);
 		bool IsReward = Rewards.Contains(Enum);
-
+		
 		if(!CurrentAmount || !RequiredAmount || !RewardAmount)
 			return;
 

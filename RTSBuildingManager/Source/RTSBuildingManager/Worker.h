@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "FRequirements.h"
+#include "WorkerRequirements.h"
 #include "GameFramework/Character.h"
 #include "Worker.generated.h"
 
@@ -34,7 +35,7 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void CollectResource(UPARAM(ref) TMap<EResourceType, int> Resource);
-
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UStaticMeshComponent* MeshComp;
 
@@ -44,6 +45,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TMap<EResourceType, int> CollectedResources;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UWorkerRequirements* WorkerRequirements;
 
 private:
 	UPROPERTY()

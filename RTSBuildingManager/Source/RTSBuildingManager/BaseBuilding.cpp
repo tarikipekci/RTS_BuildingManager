@@ -44,6 +44,8 @@ bool ABaseBuilding::IsThereEnoughResource()
 	{
 		int32* CurrentAmount = Cast<ABuildingGameState>(GS)->CurrentBalance.Find(EnumType);
 		int32* RequiredAmount = RewardRequirements.Find(EnumType);
+		if(!CurrentAmount)
+			continue;
 		if(*CurrentAmount < *RequiredAmount)
 		{
 			WidgetComp->SetVisibility(false);

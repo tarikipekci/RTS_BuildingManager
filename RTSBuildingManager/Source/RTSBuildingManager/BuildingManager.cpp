@@ -31,7 +31,8 @@ void ABuildingManager::ConsumeResource()
 		{
 			int32* CurrentAmount = Cast<ABuildingGameState>(GS)->CurrentBalance.Find(Enum);
 			int32* RequiredAmount = BuildingData->Requirements.RequiredResourceInfo.Find(Enum);
-
+			if(!CurrentAmount)
+				continue;
 			if(*CurrentAmount < *RequiredAmount)
 				return;
 

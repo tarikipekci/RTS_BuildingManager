@@ -7,6 +7,7 @@
 #include "GameFramework/GameStateBase.h"
 #include "BuildingGameState.generated.h"
 
+class AWorkerProducerBuilding;
 /**
  * 
  */
@@ -23,7 +24,13 @@ public:
 	UPROPERTY(BlueprintAssignable)
 	FResourcesUpdated ResourcesUpdated;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	AWorkerProducerBuilding* SelectedWorkerProducer;
+
 public:
 	UFUNCTION(BlueprintCallable)
 	void UpdateCurrentBalance(UPARAM(ref) TMap<EResourceType, int>& StackedBalance);
+
+	UFUNCTION(BlueprintCallable)
+	bool ConsumeResource(UPARAM(ref) TMap<EResourceType, int> Requirements);
 };

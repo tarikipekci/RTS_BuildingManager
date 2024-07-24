@@ -17,4 +17,6 @@ class RTSBUILDINGMANAGER_API AAllyWorkerController : public AAIController
 public:
 	UFUNCTION(BlueprintCallable)
 	void MoveToTarget(FVector TargetLocation);
+
+	virtual void OnPossess(APawn* InPawn) override;
 };

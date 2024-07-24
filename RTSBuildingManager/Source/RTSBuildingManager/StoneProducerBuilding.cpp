@@ -30,7 +30,8 @@ void AStoneProducerBuilding::ManageClaims()
 		int32* RewardAmount = Rewards.Find(StackedResource);
 		bool IsExisted = GS->CurrentBalance.Contains(StackedResource);
 		bool IsRequired = RewardRequirements.Contains(StackedResource);
-
+		if(!RewardAmount)
+			continue;
 		if(IsExisted)
 		{
 			int32* CurrentAmount = GS->CurrentBalance.Find(StackedResource);
@@ -100,7 +101,8 @@ void AStoneProducerBuilding::Work()
 			int32* RequiredAmount = RewardRequirements.Find(Enum);
 			int32* RewardAmount = Rewards.Find(Enum);
 			bool IsReward = Rewards.Contains(Enum);
-
+			if(!CurrentAmount)
+				continue;
 			if(*CurrentAmount < *RequiredAmount)
 				return;
 
@@ -113,5 +115,6 @@ void AStoneProducerBuilding::Work()
 	bRewardClaimed = true;
 	WidgetComp->SetVisibility(false);
 	GetWorld()->GetTimerManager().PauseTimer(WorkingTimerHandle);
-	GetWorld()->GetTimerManager().SetTimer(TimerHandle,this,&AStoneProducerBuilding::CheckRequiredState, Requirements->WorkDuration, true);
+	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &AStoneProducerBuilding::CheckRequiredState,
+	                                       Requirements->WorkDuration, true);
 }

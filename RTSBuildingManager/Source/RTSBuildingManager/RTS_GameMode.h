@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "FRequirements.h"
+#include "Worker.h"
 #include "GameFramework/GameModeBase.h"
 #include "RTS_GameMode.generated.h"
 
@@ -20,6 +21,9 @@ class RTSBUILDINGMANAGER_API ARTS_GameMode : public AGameModeBase
 public:
 	UPROPERTY(BlueprintReadWrite)
 	TArray<TSubclassOf<ABaseBuilding>> Buildables;
+
+	UPROPERTY(BlueprintReadWrite)
+	TArray<TSubclassOf<AWorker>> Workers;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TArray<EResourceType> ResourceTypes;

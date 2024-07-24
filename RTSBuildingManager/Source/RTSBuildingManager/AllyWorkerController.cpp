@@ -7,3 +7,8 @@ void AAllyWorkerController::MoveToTarget(FVector TargetLocation)
 {
 	MoveToLocation(TargetLocation);
 }
+
+void AAllyWorkerController::OnPossess(APawn* InPawn)
+{
+	Super::OnPossess(InPawn);
+}

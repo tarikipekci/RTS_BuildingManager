@@ -42,7 +42,8 @@ void AWoodProducerBuilding::Work()
 		int32* RequiredAmount = RewardRequirements.Find(Enum);
 		int32* RewardAmount = Rewards.Find(Enum);
 		bool IsReward = Rewards.Contains(Enum);
-
+		if(!CurrentAmount)
+			continue;
 		if(*CurrentAmount < *RequiredAmount)
 			return;
 
