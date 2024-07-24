@@ -1,10 +1,12 @@
 #include "StoneProducerBuilding.h"
 
-#include "BuildingGameState.h"
 #include "BuildingRequirements.h"
-#include "RTS_GameMode.h"
 #include "Components/WidgetComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "RTSBuildingManager/Game/BuildingGameState.h"
+#include "RTSBuildingManager/Game/RTS_GameMode.h"
+
+class ABuildingGameState;
 
 AStoneProducerBuilding::AStoneProducerBuilding()
 {

@@ -3,11 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "FRequirements.h"
-#include "Worker.h"
 #include "GameFramework/GameModeBase.h"
 #include "RTS_GameMode.generated.h"
 
+class AWorker;
+enum class EResourceType : uint8;
 class ABaseBuilding;
 class ABuilding;
 /**

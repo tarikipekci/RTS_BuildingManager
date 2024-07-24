@@ -1,8 +1,8 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "RTSBuildingManagerGameMode.h"
-#include "RTSBuildingManagerPlayerController.h"
-#include "RTSBuildingManagerCharacter.h"
+
+#include "Player/RTSBuildingManagerPlayerController.h"
 #include "UObject/ConstructorHelpers.h"
 
 ARTSBuildingManagerGameMode::ARTSBuildingManagerGameMode()

@@ -3,7 +3,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "FRequirements.h"
 #include "Engine/DataAsset.h"
 #include "WorkerRequirements.generated.h"
 

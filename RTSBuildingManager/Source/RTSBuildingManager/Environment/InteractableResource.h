@@ -3,11 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "FRequirements.h"
-#include "Worker.h"
 #include "GameFramework/Actor.h"
 #include "InteractableResource.generated.h"
 
+enum class EResourceType : uint8;
+class AWorker;
 class UWidgetComponent;
 
 UCLASS()

@@ -3,10 +3,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "FRequirements.h"
 #include "GameFramework/GameStateBase.h"
 #include "BuildingGameState.generated.h"
 
+enum class EResourceType : uint8;
 class AWorkerProducerBuilding;
 /**
  * 

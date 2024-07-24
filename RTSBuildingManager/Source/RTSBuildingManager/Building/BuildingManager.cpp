@@ -1,10 +1,10 @@
 #include "BuildingManager.h"
 
 #include "BaseBuilding.h"
-#include "BuildingGameState.h"
 #include "BuildingRequirements.h"
-#include "RTS_GameMode.h"
 #include "Kismet/GameplayStatics.h"
+#include "RTSBuildingManager/Game/BuildingGameState.h"
+#include "RTSBuildingManager/Game/RTS_GameMode.h"
 
 ABuildingManager::ABuildingManager()
 {

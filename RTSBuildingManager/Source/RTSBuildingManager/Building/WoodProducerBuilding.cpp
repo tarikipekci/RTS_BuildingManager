@@ -1,8 +1,8 @@
 #include "WoodProducerBuilding.h"
-#include "BuildingGameState.h"
-#include "RTS_GameMode.h"
 #include "Components/WidgetComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "RTSBuildingManager/Game/BuildingGameState.h"
+#include "RTSBuildingManager/Game/RTS_GameMode.h"
 
 AWoodProducerBuilding::AWoodProducerBuilding()
 {
