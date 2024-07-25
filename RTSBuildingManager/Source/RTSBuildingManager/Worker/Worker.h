@@ -30,10 +30,10 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	UFUNCTION(BlueprintCallable)
-	void PerformMove(FVector TargetLocation);
+	void CollectResource(UPARAM(ref) TMap<EResourceType, int> Resource);
 
 	UFUNCTION(BlueprintCallable)
-	void CollectResource(UPARAM(ref) TMap<EResourceType, int> Resource);
+	bool HasResource();
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UStaticMeshComponent* MeshComp;

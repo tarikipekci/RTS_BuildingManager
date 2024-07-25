@@ -9,7 +9,7 @@ void ABuildingGameState::UpdateCurrentBalance(UPARAM(ref) TMap<EResourceType, in
 		if(IsExisted)
 		{
 			int32* CurrentAmount = CurrentBalance.Find(StackedResource.Key);
-			if(*CurrentAmount)
+			if(CurrentAmount)
 			{
 				*CurrentAmount += StackedResource.Value;
 			}

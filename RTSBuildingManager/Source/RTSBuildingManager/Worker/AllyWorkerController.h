@@ -13,10 +13,5 @@ UCLASS()
 class RTSBUILDINGMANAGER_API AAllyWorkerController : public AAIController
 {
 	GENERATED_BODY()
-
-public:
-	UFUNCTION(BlueprintCallable)
-	void MoveToTarget(FVector TargetLocation);
-
-	virtual void OnPossess(APawn* InPawn) override;
+	
 };

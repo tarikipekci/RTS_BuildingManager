@@ -71,6 +71,13 @@ void ABuildingManager::SpawnBuilding(TSubclassOf<ABaseBuilding> Building)
 {
 	AGameStateBase* GS = GetWorld()->GetGameState<AGameStateBase>();
 	ARTS_GameMode* GM = Cast<ARTS_GameMode>(UGameplayStatics::GetGameMode(GetWorld()));
+	if(Cast<ABuildingGameState>(GS)->Warehouse)
+	{
+		if(Building->IsChildOf(AWarehouseBuilding::StaticClass()))
+		{
+			return;
+		}
+	}
 	if(!GM) return;
 	if(!GS) return;
 

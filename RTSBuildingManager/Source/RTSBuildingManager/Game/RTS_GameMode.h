@@ -19,6 +19,8 @@ class RTSBUILDINGMANAGER_API ARTS_GameMode : public AGameModeBase
 	GENERATED_BODY()
 
 public:
+	ARTS_GameMode();
+
 	UPROPERTY(BlueprintReadWrite)
 	TArray<TSubclassOf<ABaseBuilding>> Buildables;
 
@@ -27,4 +29,10 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TArray<EResourceType> ResourceTypes;
+
+	UFUNCTION(BlueprintCallable)
+	void CallWorkersToWarehouse();
+
+private:
+	float RandomNavigableRadius;
 };

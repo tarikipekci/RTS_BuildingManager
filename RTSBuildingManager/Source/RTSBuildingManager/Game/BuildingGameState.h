@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameStateBase.h"
+#include "RTSBuildingManager/Building/WarehouseBuilding.h"
+#include "RTSBuildingManager/Worker/Worker.h"
 #include "BuildingGameState.generated.h"
 
 enum class EResourceType : uint8;
@@ -26,6 +28,12 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	AWorkerProducerBuilding* SelectedWorkerProducer;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	AWarehouseBuilding* Warehouse;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<AWorker*> BringingWorkers;
 
 public:
 	UFUNCTION(BlueprintCallable)

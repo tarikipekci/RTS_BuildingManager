@@ -3,7 +3,6 @@
 
 #include "Worker.h"
 
-#include "AllyWorkerController.h"
 
 // Sets default values
 AWorker::AWorker()
@@ -32,14 +31,6 @@ void AWorker::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 }
 
-void AWorker::PerformMove(FVector TargetLocation)
-{
-	if(!AIController)
-		return;
-
-	AIController->MoveToTarget(TargetLocation);
-}
-
 void AWorker::CollectResource(TMap<EResourceType, int> Resource)
 {
 	for(auto CurrentResource : Resource)
@@ -50,4 +41,17 @@ void AWorker::CollectResource(TMap<EResourceType, int> Resource)
 		int32& CollectedAmount = CollectedResources.FindOrAdd(CurrentResource.Key);
 		CollectedAmount += 1;
 	}
+}
+
+bool AWorker::HasResource()
+{
+	for(auto Resource : CollectedResources)
+	{
+		int32* CurrentResourceAmount = CollectedResources.Find(Resource.Key);
+		if(!CurrentResourceAmount)
+			return false;
+		if(*CurrentResourceAmount > 0)
+			return true;
+	}
+	return false;
 }
