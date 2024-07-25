@@ -44,7 +44,7 @@ bool ABaseBuilding::IsThereEnoughResource()
 	{
 		int32* CurrentAmount = Cast<ABuildingGameState>(GS)->CurrentBalance.Find(EnumType);
 		int32* RequiredAmount = RewardRequirements.Find(EnumType);
-		if(!CurrentAmount)
+		if(!CurrentAmount || !RequiredAmount)
 			continue;
 		if(*CurrentAmount < *RequiredAmount)
 		{

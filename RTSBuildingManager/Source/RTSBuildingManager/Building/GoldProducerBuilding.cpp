@@ -36,16 +36,19 @@ void AGoldProducerBuilding::Work()
 		int32* RequiredAmount = RewardRequirements.Find(Enum);
 		int32* RewardAmount = Rewards.Find(Enum);
 		bool IsReward = Rewards.Contains(Enum);
-		
-		if(!CurrentAmount || !RequiredAmount || !RewardAmount)
-			return;
-
-		*CurrentAmount -= *RequiredAmount;
 
 		if(IsReward)
 		{
+			if(!RewardAmount)
+				continue;
 			*CurrentAmount += *RewardAmount;
 			Cast<ABuildingGameState>(GS)->ResourcesUpdated.Broadcast();
+		}
+		else
+		{
+			if(!CurrentAmount || !RequiredAmount)
+				continue;
+			*CurrentAmount -= *RequiredAmount;
 		}
 	}
 }

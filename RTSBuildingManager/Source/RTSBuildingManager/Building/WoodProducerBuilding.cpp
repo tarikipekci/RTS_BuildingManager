@@ -42,13 +42,7 @@ void AWoodProducerBuilding::Work()
 		int32* RequiredAmount = RewardRequirements.Find(Enum);
 		int32* RewardAmount = Rewards.Find(Enum);
 		bool IsReward = Rewards.Contains(Enum);
-		if(!CurrentAmount)
-			continue;
-		if(*CurrentAmount < *RequiredAmount)
-			return;
-
-		*CurrentAmount -= *RequiredAmount;
-
+		
 		if(IsReward)
 		{
 			if(!StackedResources.Contains(Enum))
@@ -61,6 +55,14 @@ void AWoodProducerBuilding::Work()
 				*StackedAmount += *RewardAmount;
 			}
 			ClaimWidget->SetVisibility(true);
+		}
+		else
+		{
+			if(!RequiredAmount || !CurrentAmount)
+				continue;
+			if(*CurrentAmount < *RequiredAmount)
+				return;
+			*CurrentAmount -= *RequiredAmount;
 		}
 	}
 	Cast<ABuildingGameState>(GS)->ResourcesUpdated.Broadcast();
