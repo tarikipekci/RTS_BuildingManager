@@ -42,6 +42,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void BroadcastDelegates();
 
+	UFUNCTION(BlueprintCallable)
+	UWidgetComponent* GetWidgetComp() const { return WidgetComp; }
+
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	USceneComponent* BuildingRoot;
@@ -58,10 +61,10 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TMap<EResourceType, int> Rewards;
 
+public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TMap<EResourceType, int> RewardRequirements;
 
-public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UBuildingRequirements* Requirements;
 
@@ -70,4 +73,7 @@ public:
 
 	UPROPERTY(BlueprintAssignable, BlueprintReadWrite, EditAnywhere)
 	FResourceClaimed ResourceClaimed;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool IsOwnerPlayer;
 };

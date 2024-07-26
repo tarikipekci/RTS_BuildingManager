@@ -23,6 +23,9 @@ public:
 	UPROPERTY(EditAnywhere ,BlueprintReadWrite)
 	TMap<EResourceType, int> CurrentBalance;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TMap<EResourceType, int> AICurrentBalance;
+
 	UPROPERTY(BlueprintAssignable)
 	FResourcesUpdated ResourcesUpdated;
 

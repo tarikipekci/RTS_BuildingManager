@@ -61,6 +61,7 @@ void ABuildingManager::SetBuildingLocationAtMouse()
 			{
 				ConsumeResource();
 				Cast<ABaseBuilding>(SpawnedBuilding)->StartBuilding();
+				Cast<ABaseBuilding>(SpawnedBuilding)->IsOwnerPlayer = true;
 				SpawnedBuilding = nullptr;
 			}
 		}

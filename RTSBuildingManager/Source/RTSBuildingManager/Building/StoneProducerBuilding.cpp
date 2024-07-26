@@ -101,9 +101,19 @@ void AStoneProducerBuilding::Work()
 		if(!IsThereEnoughResource())
 			return;
 
+		TMap<EResourceType, int>* Current;
+		if(IsOwnerPlayer)
+		{
+			Current = &Cast<ABuildingGameState>(GS)->CurrentBalance;
+		}
+		else
+		{
+			Current = &Cast<ABuildingGameState>(GS)->AICurrentBalance;
+		}
+
 		for(EResourceType Enum : GM->ResourceTypes)
 		{
-			int32* CurrentAmount = Cast<ABuildingGameState>(GS)->CurrentBalance.Find(Enum);
+			int32* CurrentAmount = Current->Find(Enum);
 			int32* RequiredAmount = RewardRequirements.Find(Enum);
 			bool IsReward = Rewards.Contains(Enum);
 

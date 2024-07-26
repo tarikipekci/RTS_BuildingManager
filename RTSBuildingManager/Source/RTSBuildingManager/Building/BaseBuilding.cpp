@@ -18,6 +18,7 @@ ABaseBuilding::ABaseBuilding()
 	MeshComp = CreateDefaultSubobject<UStaticMeshComponent>("StaticMeshComponent");
 	MeshComp->SetupAttachment(BuildingRoot);
 	WidgetComp = CreateDefaultSubobject<UWidgetComponent>("WidgetComponent");
+	IsOwnerPlayer = false;
 }
 
 // Called when the game starts or when spawned
@@ -40,9 +41,19 @@ bool ABaseBuilding::IsThereEnoughResource()
 	if(!GM) return false;
 	if(!GS) return false;
 
+	TMap<EResourceType, int>* Current;
+	if(IsOwnerPlayer)
+	{
+		Current = &Cast<ABuildingGameState>(GS)->CurrentBalance;
+	}
+	else
+	{
+		Current = &Cast<ABuildingGameState>(GS)->AICurrentBalance;
+	}
+
 	for(EResourceType EnumType : GM->ResourceTypes)
 	{
-		int32* CurrentAmount = Cast<ABuildingGameState>(GS)->CurrentBalance.Find(EnumType);
+		int32* CurrentAmount = Current->Find(EnumType);
 		int32* RequiredAmount = RewardRequirements.Find(EnumType);
 		if(!CurrentAmount || !RequiredAmount)
 			continue;

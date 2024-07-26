@@ -38,7 +38,16 @@ void AWoodProducerBuilding::Work()
 
 	for(EResourceType Enum : GM->ResourceTypes)
 	{
-		int32* CurrentAmount = Cast<ABuildingGameState>(GS)->CurrentBalance.Find(Enum);
+		TMap<EResourceType, int>* Current;
+		if(IsOwnerPlayer)
+		{
+			Current = &Cast<ABuildingGameState>(GS)->CurrentBalance;
+		}
+		else
+		{
+			Current = &Cast<ABuildingGameState>(GS)->AICurrentBalance;
+		}
+		int32* CurrentAmount = Current->Find(Enum);
 		int32* RequiredAmount = RewardRequirements.Find(Enum);
 		int32* RewardAmount = Rewards.Find(Enum);
 		bool IsReward = Rewards.Contains(Enum);
