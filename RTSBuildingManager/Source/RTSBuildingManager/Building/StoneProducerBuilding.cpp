@@ -27,17 +27,27 @@ void AStoneProducerBuilding::ManageClaims()
 	if(!GS || !GM)
 		return;
 
+	TMap<EResourceType, int>* Current;
+		if(IsOwnerPlayer)
+		{
+			Current = &Cast<ABuildingGameState>(GS)->CurrentBalance;
+		}
+		else
+		{
+			Current = &Cast<ABuildingGameState>(GS)->AICurrentBalance;
+		}
+
 	for(auto StackedResource : GM->ResourceTypes)
 	{
 		int32* RewardAmount = Rewards.Find(StackedResource);
-		bool IsExisted = GS->CurrentBalance.Contains(StackedResource);
+		bool IsExisted = Current->Contains(StackedResource);
 		bool IsRequired = RewardRequirements.Contains(StackedResource);
 		if(!IsRequired && !RewardAmount)
 			continue;
 
 		if(IsExisted)
 		{
-			int32* CurrentAmount = GS->CurrentBalance.Find(StackedResource);
+			int32* CurrentAmount = Current->Find(StackedResource);
 			if(CurrentAmount)
 			{
 				if(RewardAmount)
@@ -56,7 +66,7 @@ void AStoneProducerBuilding::ManageClaims()
 		}
 		else
 		{
-			int32& NewResource = GS->CurrentBalance.Add(StackedResource);
+			int32& NewResource = Current->Add(StackedResource);
 			NewResource += *RewardAmount;
 		}
 	}
@@ -135,4 +145,8 @@ void AStoneProducerBuilding::Work()
 	GetWorld()->GetTimerManager().PauseTimer(WorkingTimerHandle);
 	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &AStoneProducerBuilding::CheckRequiredState,
 	                                       Requirements->WorkDuration, true);
+	if(!IsOwnerPlayer)
+	{
+		ResourceClaimed.Broadcast();
+	}
 }

@@ -11,6 +11,7 @@ AWorker::AWorker()
 	PrimaryActorTick.bCanEverTick = true;
 	MeshComp = CreateDefaultSubobject<UStaticMeshComponent>("StaticMeshComponent");
 	MeshComp->SetupAttachment(GetMesh());
+	IsAlly = true;
 }
 
 // Called when the game starts or when spawned

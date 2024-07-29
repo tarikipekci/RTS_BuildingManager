@@ -24,6 +24,8 @@ EBTNodeResult::Type UBTTask_FindLeastResource::ExecuteTask(UBehaviorTreeComponen
 
 	for(auto ResourceType : GM->ResourceTypes)
 	{
+		if(ResourceType == EResourceType::Food)
+			continue;
 		int32* CurrentAmount = GS->AICurrentBalance.Find(ResourceType);
 		if(!CurrentAmount)
 			continue;

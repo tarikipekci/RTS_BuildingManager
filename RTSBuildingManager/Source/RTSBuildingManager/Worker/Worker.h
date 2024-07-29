@@ -34,6 +34,15 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	bool HasResource();
+
+	UFUNCTION(BlueprintCallable)
+	bool GetIsAlly() const {return IsAlly;}
+
+	UFUNCTION(BlueprintCallable)
+	void SetIsAlly(bool IsAllyWorker)
+	{
+		IsAlly = IsAllyWorker;
+	}
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UStaticMeshComponent* MeshComp;
@@ -48,7 +57,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UWorkerRequirements* WorkerRequirements;
 
-private:
 	UPROPERTY()
 	AAllyWorkerController* AIController;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool IsAlly;
 };

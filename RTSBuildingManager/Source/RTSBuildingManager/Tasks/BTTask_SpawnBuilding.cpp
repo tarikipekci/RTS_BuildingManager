@@ -8,6 +8,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "RTSBuildingManager/Building/BaseBuilding.h"
 #include "RTSBuildingManager/Building/BuildingRequirements.h"
+#include "RTSBuildingManager/Building/WorkerProducerBuilding.h"
 #include "RTSBuildingManager/Game/BuildingGameState.h"
 #include "RTSBuildingManager/Game/RTS_GameMode.h"
 
@@ -42,6 +43,11 @@ EBTNodeResult::Type UBTTask_SpawnBuilding::ExecuteTask(UBehaviorTreeComponent& O
 	{
 		if(Cast<ABaseBuilding>(SpawnedActor))
 		{
+			if(Cast<AWorkerProducerBuilding>(SpawnedActor))
+			{
+				AGameStateBase* GS = GetWorld()->GetGameState<AGameStateBase>();
+				Cast<ABuildingGameState>(GS)->EnemyWorkerProducer = Cast<AWorkerProducerBuilding>(SpawnedActor);
+			}
 			Cast<ABaseBuilding>(SpawnedActor)->StartBuilding();
 			Cast<ABaseBuilding>(SpawnedActor)->IsOwnerPlayer = false;
 			ConsumeResources(Cast<ABaseBuilding>(SpawnedActor)->Requirements);
@@ -63,12 +69,15 @@ void UBTTask_SpawnBuilding::ConsumeResources(UBuildingRequirements* Requirements
 		{
 			int32* CurrentAmount = Cast<ABuildingGameState>(GS)->AICurrentBalance.Find(Enum);
 			int32* RequiredAmount = BuildingData->Requirements.RequiredResourceInfo.Find(Enum);
-			if(!CurrentAmount)
+			if(!RequiredAmount)
 				continue;
-			if(*CurrentAmount < *RequiredAmount)
+			if(!CurrentAmount)
 				return;
 
-			*CurrentAmount -= *RequiredAmount;
+			if(*CurrentAmount >= *RequiredAmount)
+			{
+				*CurrentAmount -= *RequiredAmount;
+			}
 
 			Cast<ABuildingGameState>(GS)->ResourcesUpdated.Broadcast();
 		}
@@ -89,7 +98,7 @@ bool UBTTask_SpawnBuilding::IsThereEnoughResource(UBehaviorTreeComponent& OwnerC
 	for(EResourceType EnumType : GM->ResourceTypes)
 	{
 		int32* CurrentAmount = Cast<ABuildingGameState>(GS)->AICurrentBalance.Find(EnumType);
-		int32* RequiredAmount = Building->RewardRequirements.Find(EnumType);
+		int32* RequiredAmount = Building->Requirements->Requirements.RequiredResourceInfo.Find(EnumType);
 		if(!CurrentAmount || !RequiredAmount)
 			continue;
 		if(*CurrentAmount < *RequiredAmount)

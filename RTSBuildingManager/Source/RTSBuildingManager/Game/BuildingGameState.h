@@ -33,15 +33,36 @@ public:
 	AWorkerProducerBuilding* SelectedWorkerProducer;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	AWarehouseBuilding* Warehouse;
+	AWarehouseBuilding* AllyWarehouse;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	AWarehouseBuilding* EnemyWarehouse;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	AWorkerProducerBuilding* AllyWorkerProducer;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	AWorkerProducerBuilding* EnemyWorkerProducer;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TArray<AWorker*> BringingWorkers;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int AllyWorkerCount;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int EnemyWorkerCount;
 
 public:
 	UFUNCTION(BlueprintCallable)
 	void UpdateCurrentBalance(UPARAM(ref) TMap<EResourceType, int>& StackedBalance);
 
 	UFUNCTION(BlueprintCallable)
-	bool ConsumeResource(UPARAM(ref) TMap<EResourceType, int> Requirements);
+	void UpdateAICurrentBalance(UPARAM(ref) TMap<EResourceType, int>& StackedBalance);
+
+	UFUNCTION(BlueprintCallable)
+	bool ConsumeResource(UPARAM(ref) TMap<EResourceType, int>& Requirements);
+
+	UFUNCTION(BlueprintCallable)
+	bool ConsumeAIResource(UPARAM(ref) TMap<EResourceType, int>& Requirements);
 };

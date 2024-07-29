@@ -31,8 +31,11 @@ void ABuildingManager::ConsumeResource()
 		{
 			int32* CurrentAmount = Cast<ABuildingGameState>(GS)->CurrentBalance.Find(Enum);
 			int32* RequiredAmount = BuildingData->Requirements.RequiredResourceInfo.Find(Enum);
+			if(!RequiredAmount)
+				continue;				
+
 			if(!CurrentAmount)
-				continue;
+				return;
 			if(*CurrentAmount < *RequiredAmount)
 				return;
 
@@ -72,7 +75,7 @@ void ABuildingManager::SpawnBuilding(TSubclassOf<ABaseBuilding> Building)
 {
 	AGameStateBase* GS = GetWorld()->GetGameState<AGameStateBase>();
 	ARTS_GameMode* GM = Cast<ARTS_GameMode>(UGameplayStatics::GetGameMode(GetWorld()));
-	if(Cast<ABuildingGameState>(GS)->Warehouse)
+	if(Cast<ABuildingGameState>(GS)->AllyWarehouse)
 	{
 		if(Building->IsChildOf(AWarehouseBuilding::StaticClass()))
 		{

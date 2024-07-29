@@ -33,9 +33,9 @@ void ARTS_GameMode::CallWorkersToWarehouse()
 			ABuildingGameState* BuildingGameState = Cast<ABuildingGameState>(GS);
 			if(BuildingGameState)
 			{
-				if(BuildingGameState->Warehouse)
+				if(BuildingGameState->AllyWarehouse)
 				{
-					FVector WarehouseLocation = Cast<ABuildingGameState>(GS)->Warehouse->GetActorLocation();
+					FVector WarehouseLocation = Cast<ABuildingGameState>(GS)->AllyWarehouse->GetActorLocation();
 					AAllyWorkerController* AIController = Cast<AAllyWorkerController>(Worker->GetController());
 					Cast<ABuildingGameState>(GS)->BringingWorkers.Add(Worker);
 					FNavLocation RandomLocation;

@@ -74,5 +74,9 @@ void AWoodProducerBuilding::Work()
 			*CurrentAmount -= *RequiredAmount;
 		}
 	}
+	if(!IsOwnerPlayer)
+	{
+		ResourceClaimed.Broadcast();
+	}
 	Cast<ABuildingGameState>(GS)->ResourcesUpdated.Broadcast();
 }
