@@ -60,6 +60,7 @@ bool ABaseBuilding::IsThereEnoughResource()
 		if(*CurrentAmount < *RequiredAmount)
 		{
 			WidgetComp->SetVisibility(false);
+			GetWorld()->GetTimerManager().ClearTimer(WorkingTimerHandle);
 			return false;
 		}
 	}

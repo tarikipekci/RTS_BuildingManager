@@ -142,11 +142,8 @@ void AStoneProducerBuilding::Work()
 	}
 	bRewardClaimed = true;
 	WidgetComp->SetVisibility(false);
-	GetWorld()->GetTimerManager().PauseTimer(WorkingTimerHandle);
-	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &AStoneProducerBuilding::CheckRequiredState,
-	                                       Requirements->WorkDuration, true);
 	if(!IsOwnerPlayer)
 	{
-		ResourceClaimed.Broadcast();
+		BroadcastDelegates();
 	}
 }
