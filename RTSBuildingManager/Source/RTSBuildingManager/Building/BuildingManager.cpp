@@ -133,6 +133,10 @@ void ABuildingManager::SpawnBuilding(TSubclassOf<ABaseBuilding> Building)
 				{
 					AActor* SpawnedActor = GetWorld()->SpawnActor<AActor>(Building, SpawnLocation, SpawnRotation);
 					SpawnedBuilding = SpawnedActor;
+					if(AWarehouseBuilding* Warehouse = Cast<AWarehouseBuilding>(SpawnedActor))
+					{
+						Cast<ABuildingGameState>(GS)->AllyWarehouse = Warehouse;
+					}
 				}
 			}
 		}

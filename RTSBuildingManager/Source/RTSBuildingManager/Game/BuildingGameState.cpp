@@ -23,7 +23,7 @@ void ABuildingGameState::UpdateCurrentBalance(UPARAM(ref) TMap<EResourceType, in
 	StackedBalance.Empty();
 }
 
-void ABuildingGameState::UpdateAICurrentBalance(TMap<EResourceType, int>& StackedBalance)
+void ABuildingGameState::UpdateAICurrentBalance(UPARAM(ref) TMap<EResourceType, int>& StackedBalance)
 {
 	for(auto StackedResource : StackedBalance)
 	{
@@ -43,6 +43,7 @@ void ABuildingGameState::UpdateAICurrentBalance(TMap<EResourceType, int>& Stacke
 		}
 	}
 	StackedBalance.Empty();
+	ResourcesUpdated.Broadcast();
 }
 
 bool ABuildingGameState::ConsumeResource(TMap<EResourceType, int>& Requirements)
@@ -66,6 +67,7 @@ bool ABuildingGameState::ConsumeResource(TMap<EResourceType, int>& Requirements)
 			return false;
 		}
 	}
+	
 	ResourcesUpdated.Broadcast();
 	return true;
 }

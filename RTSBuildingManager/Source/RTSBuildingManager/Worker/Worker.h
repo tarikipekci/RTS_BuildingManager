@@ -43,6 +43,15 @@ public:
 	{
 		IsAlly = IsAllyWorker;
 	}
+
+	UFUNCTION(BlueprintCallable)
+	bool GetIsWorking() const {return IsWorking;}
+
+	UFUNCTION(BlueprintCallable)
+	void SetIsWorking(bool IsWorkingValue)
+	{
+		IsWorking = IsWorkingValue;
+	}
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UStaticMeshComponent* MeshComp;
@@ -62,4 +71,7 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool IsAlly;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool IsWorking;
 };

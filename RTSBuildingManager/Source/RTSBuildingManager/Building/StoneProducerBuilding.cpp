@@ -28,14 +28,14 @@ void AStoneProducerBuilding::ManageClaims()
 		return;
 
 	TMap<EResourceType, int>* Current;
-		if(IsOwnerPlayer)
-		{
-			Current = &Cast<ABuildingGameState>(GS)->CurrentBalance;
-		}
-		else
-		{
-			Current = &Cast<ABuildingGameState>(GS)->AICurrentBalance;
-		}
+	if(IsOwnerPlayer)
+	{
+		Current = &Cast<ABuildingGameState>(GS)->CurrentBalance;
+	}
+	else
+	{
+		Current = &Cast<ABuildingGameState>(GS)->AICurrentBalance;
+	}
 
 	for(auto StackedResource : GM->ResourceTypes)
 	{
@@ -101,9 +101,9 @@ void AStoneProducerBuilding::Work()
 {
 	Super::Work();
 
+	AGameStateBase* GS = GetWorld()->GetGameState<AGameStateBase>();
 	if(bRewardClaimed == false)
 	{
-		AGameStateBase* GS = GetWorld()->GetGameState<AGameStateBase>();
 		ARTS_GameMode* GM = Cast<ARTS_GameMode>(UGameplayStatics::GetGameMode(GetWorld()));
 		if(!GM) return;
 		if(!GS) return;
@@ -133,8 +133,10 @@ void AStoneProducerBuilding::Work()
 			}
 			else
 			{
-				if(!CurrentAmount || !RequiredAmount)
+				if(!RequiredAmount)
 					continue;
+				if(!CurrentAmount)
+					return;
 				if(*CurrentAmount < *RequiredAmount)
 					return;
 			}
@@ -146,4 +148,5 @@ void AStoneProducerBuilding::Work()
 	{
 		BroadcastDelegates();
 	}
+	Cast<ABuildingGameState>(GS)->ResourcesUpdated.Broadcast();
 }

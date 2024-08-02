@@ -15,7 +15,7 @@ ARTS_GameMode::ARTS_GameMode()
 	RandomNavigableRadius = 250.0f;
 }
 
-void ARTS_GameMode::CallWorkersToWarehouse()
+void ARTS_GameMode::CallAllyWorkersToWarehouse()
 {
 	TArray<AActor*> AllWorkers;
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AWorker::StaticClass(), AllWorkers);
@@ -30,15 +30,53 @@ void ARTS_GameMode::CallWorkersToWarehouse()
 		{
 			if(!Worker->HasResource())
 				continue;
+
 			ABuildingGameState* BuildingGameState = Cast<ABuildingGameState>(GS);
+			AAllyWorkerController* AIController = Cast<AAllyWorkerController>(Worker->GetController());
+			Cast<ABuildingGameState>(GS)->BringingWorkers.Add(Worker);
+			FNavLocation RandomLocation;
 			if(BuildingGameState)
 			{
-				if(BuildingGameState->AllyWarehouse)
+				if(Worker->GetIsAlly())
 				{
-					FVector WarehouseLocation = Cast<ABuildingGameState>(GS)->AllyWarehouse->GetActorLocation();
-					AAllyWorkerController* AIController = Cast<AAllyWorkerController>(Worker->GetController());
-					Cast<ABuildingGameState>(GS)->BringingWorkers.Add(Worker);
-					FNavLocation RandomLocation;
+					if(BuildingGameState->AllyWarehouse)
+					{
+						FVector WarehouseLocation = Cast<ABuildingGameState>(GS)->AllyWarehouse->GetActorLocation();
+						auto const Origin = WarehouseLocation;
+						auto* const NavSystem = UNavigationSystemV1::GetCurrent(GetWorld());
+						NavSystem->GetRandomPointInNavigableRadius(Origin, RandomNavigableRadius, RandomLocation);
+						UAIBlueprintHelperLibrary::SimpleMoveToLocation(AIController, RandomLocation);
+					}
+				}
+			}
+		}
+	}
+}
+
+void ARTS_GameMode::CallEnemyWorkersToWarehouse()
+{
+	TArray<AActor*> AllWorkers;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AWorker::StaticClass(), AllWorkers);
+	AGameStateBase* GS = GetWorld()->GetGameState<AGameStateBase>();
+
+	if(!GS)
+		return;
+
+	for(AActor* Actor : AllWorkers)
+	{
+		if(AWorker* Worker = Cast<AWorker>(Actor))
+		{
+			if(!Worker->GetIsAlly())
+			{
+				if(!Worker->HasResource())
+					continue;
+				ABuildingGameState* BuildingGameState = Cast<ABuildingGameState>(GS);
+				AAllyWorkerController* AIController = Cast<AAllyWorkerController>(Worker->GetController());
+				Cast<ABuildingGameState>(GS)->BringingWorkers.Add(Worker);
+				FNavLocation RandomLocation;
+				if(BuildingGameState->EnemyWarehouse)
+				{
+					FVector WarehouseLocation = Cast<ABuildingGameState>(GS)->EnemyWarehouse->GetActorLocation();
 					auto const Origin = WarehouseLocation;
 					auto* const NavSystem = UNavigationSystemV1::GetCurrent(GetWorld());
 					NavSystem->GetRandomPointInNavigableRadius(Origin, RandomNavigableRadius, RandomLocation);

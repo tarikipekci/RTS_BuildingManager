@@ -23,6 +23,13 @@ void AWarehouseBuilding::TakeCollectedResources(TMap<EResourceType, int>& Collec
 	if(!GS || !GM)
 		return;
 
-	Cast<ABuildingGameState>(GS)->UpdateCurrentBalance(CollectedResources);
+	if(IsOwnerPlayer)
+	{
+		Cast<ABuildingGameState>(GS)->UpdateCurrentBalance(CollectedResources);
+	}
+	else
+	{
+		Cast<ABuildingGameState>(GS)->UpdateAICurrentBalance(CollectedResources);
+	}
 	Cast<ABuildingGameState>(GS)->ResourcesUpdated.Broadcast();
 }

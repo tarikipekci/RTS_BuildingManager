@@ -53,6 +53,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int EnemyWorkerCount;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<AWorker*> AvailableWorkers;
+
 public:
 	UFUNCTION(BlueprintCallable)
 	void UpdateCurrentBalance(UPARAM(ref) TMap<EResourceType, int>& StackedBalance);

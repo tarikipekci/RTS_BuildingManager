@@ -48,6 +48,11 @@ EBTNodeResult::Type UBTTask_SpawnBuilding::ExecuteTask(UBehaviorTreeComponent& O
 				AGameStateBase* GS = GetWorld()->GetGameState<AGameStateBase>();
 				Cast<ABuildingGameState>(GS)->EnemyWorkerProducer = Cast<AWorkerProducerBuilding>(SpawnedActor);
 			}
+			if(Cast<AWarehouseBuilding>(SpawnedActor))
+			{
+				AGameStateBase* GS = GetWorld()->GetGameState<AGameStateBase>();
+				Cast<ABuildingGameState>(GS)->EnemyWarehouse = Cast<AWarehouseBuilding>(SpawnedActor);
+			}
 			Cast<ABaseBuilding>(SpawnedActor)->StartBuilding();
 			Cast<ABaseBuilding>(SpawnedActor)->IsOwnerPlayer = false;
 			ConsumeResources(Cast<ABaseBuilding>(SpawnedActor)->Requirements);
@@ -60,6 +65,9 @@ EBTNodeResult::Type UBTTask_SpawnBuilding::ExecuteTask(UBehaviorTreeComponent& O
 
 void UBTTask_SpawnBuilding::ConsumeResources(UBuildingRequirements* Requirements)
 {
+	if(!Requirements)
+		return;
+
 	AGameStateBase* GS = GetWorld()->GetGameState<AGameStateBase>();
 	ARTS_GameMode* GM = Cast<ARTS_GameMode>(UGameplayStatics::GetGameMode(GetWorld()));
 	UBuildingRequirements* BuildingData = Requirements;
@@ -78,10 +86,9 @@ void UBTTask_SpawnBuilding::ConsumeResources(UBuildingRequirements* Requirements
 			{
 				*CurrentAmount -= *RequiredAmount;
 			}
-
-			Cast<ABuildingGameState>(GS)->ResourcesUpdated.Broadcast();
 		}
 	}
+	Cast<ABuildingGameState>(GS)->ResourcesUpdated.Broadcast();
 }
 
 bool UBTTask_SpawnBuilding::IsThereEnoughResource(UBehaviorTreeComponent& OwnerComp)
@@ -90,7 +97,8 @@ bool UBTTask_SpawnBuilding::IsThereEnoughResource(UBehaviorTreeComponent& OwnerC
 	ARTS_GameMode* GM = Cast<ARTS_GameMode>(UGameplayStatics::GetGameMode(GetWorld()));
 	if(!GM) return false;
 	if(!GS) return false;
-
+	if(!OwnerComp.GetBlackboardComponent()) return false;
+	
 	UClass* BuildingClass = OwnerComp.GetBlackboardComponent()->GetValueAsClass(GetSelectedBlackboardKey());
 	UObject* BuildingObject = BuildingClass->GetDefaultObject();
 	ABaseBuilding* Building = Cast<ABaseBuilding>(BuildingObject);

@@ -20,6 +20,7 @@ EBTNodeResult::Type UBTTask_FindLeastResource::ExecuteTask(UBehaviorTreeComponen
 	ABuildingGameState* GS = Cast<ABuildingGameState>(GetWorld()->GetGameState<AGameStateBase>());
 	ARTS_GameMode* GM = Cast<ARTS_GameMode>(UGameplayStatics::GetGameMode(GetWorld()));
 	int32* LeastCount = GS->AICurrentBalance.Find(EResourceType::Gold);
+	int LeastCountCopy = *LeastCount;
 	EResourceType LeastResourceType = EResourceType::None;
 
 	for(auto ResourceType : GM->ResourceTypes)
@@ -29,9 +30,9 @@ EBTNodeResult::Type UBTTask_FindLeastResource::ExecuteTask(UBehaviorTreeComponen
 		int32* CurrentAmount = GS->AICurrentBalance.Find(ResourceType);
 		if(!CurrentAmount)
 			continue;
-		if(*CurrentAmount <= *LeastCount)
+		if(*CurrentAmount <= LeastCountCopy)
 		{
-			*LeastCount = *CurrentAmount;
+			LeastCountCopy = *CurrentAmount;
 			LeastResourceType = ResourceType;
 		}
 	}

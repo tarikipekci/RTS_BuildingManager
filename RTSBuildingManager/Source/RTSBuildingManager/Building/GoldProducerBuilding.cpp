@@ -52,13 +52,17 @@ void AGoldProducerBuilding::Work()
 			if(!RewardAmount)
 				continue;
 			*CurrentAmount += *RewardAmount;
-			Cast<ABuildingGameState>(GS)->ResourcesUpdated.Broadcast();
 		}
 		else
 		{
-			if(!CurrentAmount || !RequiredAmount)
+			if(!RequiredAmount)
 				continue;
+			if(!CurrentAmount)
+				return;
+			if(*CurrentAmount < *RequiredAmount)
+				return;
 			*CurrentAmount -= *RequiredAmount;
 		}
 	}
+	Cast<ABuildingGameState>(GS)->ResourcesUpdated.Broadcast();
 }

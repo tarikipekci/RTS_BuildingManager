@@ -67,8 +67,10 @@ void AWoodProducerBuilding::Work()
 		}
 		else
 		{
-			if(!RequiredAmount || !CurrentAmount)
+			if(!RequiredAmount)
 				continue;
+			if(!CurrentAmount)
+				return;				
 			if(*CurrentAmount < *RequiredAmount)
 				return;
 			*CurrentAmount -= *RequiredAmount;

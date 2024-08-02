@@ -31,7 +31,10 @@ public:
 	TArray<EResourceType> ResourceTypes;
 
 	UFUNCTION(BlueprintCallable)
-	void CallWorkersToWarehouse();
+	void CallAllyWorkersToWarehouse();
+
+	UFUNCTION(BlueprintCallable)
+	void CallEnemyWorkersToWarehouse();
 
 private:
 	float RandomNavigableRadius;
